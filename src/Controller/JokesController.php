@@ -50,7 +50,8 @@ class JokesController extends AbstractController
         }
     
         return $this->render("jokes/chuckOrDad.html.twig", [
-            'chiste' => $chiste
+            'chiste' => $chiste , 
+            'tipo' => $tipo
         ]);
     }
 }
