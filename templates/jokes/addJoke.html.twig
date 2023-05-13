@@ -1,9 +1,19 @@
 {% block contenido %}
 
-    <form method="post" action="{{ path('add_joke') }}">
-    <input type="text" name="joke" placeholder="Ingrese el chiste">
-    <input type="number" name="numberJoke" placeholder="Ingrese el número del chiste">
-    <button type="submit">Agregar chiste</button>
+    {% if joke is defined %}
+    <h3>Editar chiste: </h3>
+    <form method="post" action="{{ path('edit_joke', {'numberJoke': numberJoke}) }}">
+        <input type="text" name="joke" placeholder="Editar chiste" value="{{ joke }}">
+        <input type="number" name="numberJoke" placeholder="Numero de chiste" value="{{ numberJoke }}" readonly>
+        <button type="submit">Editar chiste</button>
     </form>
+    {% else %}
+        <h3>Añadir chiste: </h3>
+        <form method="post" action="{{ path('add_joke') }}">
+            <input type="text" name="joke" placeholder="Agregar nuevo chiste">
+            <input type="number" name="numberJoke" placeholder="Número de chiste">
+            <button type="submit">Agregar chiste</button>
+        </form>
+    {% endif %}
 
-{% endblock %}
+{% endblock %} 

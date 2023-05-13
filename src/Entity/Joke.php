@@ -16,7 +16,7 @@ class Joke
     #[ORM\Column(length: 255)]
     private ?string $joke = null;
 
-    #[ORM\Column]
+    #[ORM\Column(unique:true)]
     private ?int $numberJoke = null;
 
     public function getId(): ?int

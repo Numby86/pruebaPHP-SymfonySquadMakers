@@ -63,7 +63,7 @@ class JokesController extends AbstractController
     public function getJokes(EntityManagerInterface $doctrine): Response
     {
         $repository = $doctrine->getRepository(Joke::class);
-        $jokes = $repository->findAll();
+        $jokes = $repository->findBy([], ['numberJoke' => 'ASC']);
 
         return $this->render("jokes/myJokes.html.twig", [
             'jokes' => $jokes,
@@ -84,9 +84,49 @@ public function addJoke(Request $request): Response
         $this->entityManager->persist($jokeEntity);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('listJoke');
+        return $this->redirectToRoute('listJokes');
     }
 
     return $this->render('jokes/addJoke.html.twig');
 }
+
+    #[Route('/deleteJoke/{numberJoke}', name: 'delete_joke', methods: ['GET'])]
+    public function deleteJoke(int $numberJoke, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Joke::class);
+        $joke = $repository->findOneBy(['numberJoke' => $numberJoke]);
+
+        if ($joke) {
+            $entityManager->remove($joke);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('listJokes');
+    }
+
+    #[Route('/editJoke/{numberJoke}', name: 'edit_joke', methods: ['GET', 'POST'])]
+    public function editJoke(Request $request, int $numberJoke, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Joke::class);
+        $joke = $repository->findOneBy(['numberJoke' => $numberJoke]);
+            
+        // if (!$joke) {
+            
+        // }
+    
+        if ($request->isMethod('POST')) {
+            $newJoke = $request->request->get('joke');
+    
+            $joke->setJoke($newJoke);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('listJokes');
+        }
+    
+        return $this->render("jokes/addJoke.html.twig", [
+            'joke' => $joke ? $joke->getJoke() : null,
+            'numberJoke' => $numberJoke,
+        ]);
+    }
+
 }
