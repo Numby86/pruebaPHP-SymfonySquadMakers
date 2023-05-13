@@ -1,0 +1,9 @@
+{% block content %}
+    <h3>Listado de Chistes</h3>
+
+    <ul>
+        {% for joke in jokes %}
+            <li>{{ joke.joke }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

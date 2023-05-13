@@ -7,14 +7,18 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Joke;
 
 class JokesController extends AbstractController
 {
     private $httpClient;
+    private $entityManager;
 
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct(HttpClientInterface $httpClient, EntityManagerInterface $entityManager)
     {
         $this->httpClient = $httpClient;
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/', name: 'jokeRandom')]
@@ -54,4 +58,35 @@ class JokesController extends AbstractController
             'tipo' => $tipo
         ]);
     }
+
+    #[Route('/listJokes', name: 'listJokes', methods: ['GET'])]
+    public function getJokes(EntityManagerInterface $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Joke::class);
+        $jokes = $repository->findAll();
+
+        return $this->render("jokes/myJokes.html.twig", [
+            'jokes' => $jokes,
+        ]);
+    }
+
+    #[Route('/addJoke', name: 'add_joke', methods: ['GET', 'POST'])]
+public function addJoke(Request $request): Response
+{
+    if ($request->isMethod('POST')) {
+        $joke = $request->request->get('joke');
+        $numberJoke = $request->request->get('numberJoke');
+
+        $jokeEntity = new Joke();
+        $jokeEntity->setJoke($joke);
+        $jokeEntity->setNumberJoke($numberJoke);
+
+        $this->entityManager->persist($jokeEntity);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('listJoke');
+    }
+
+    return $this->render('jokes/addJoke.html.twig');
+}
 }

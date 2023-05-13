@@ -1,0 +1,9 @@
+{% block contenido %}
+
+    <form method="post" action="{{ path('add_joke') }}">
+    <input type="text" name="joke" placeholder="Ingrese el chiste">
+    <input type="number" name="numberJoke" placeholder="Ingrese el número del chiste">
+    <button type="submit">Agregar chiste</button>
+    </form>
+
+{% endblock %}
