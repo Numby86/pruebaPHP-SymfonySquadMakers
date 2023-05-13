@@ -1,0 +1,14 @@
+En este repositorio resuelvo la prueba propuesta por PHP y Symfony.
+
+    -En localhost:8000 se muestra un chiste aleatorio de Chuck Norris.
+    Para una buena estructura de proyecto, he dividido y creado controladores, entidades y plantillas de Twig.
+    -He creado una base de datos llamada JokeDB en phpMyAdmin, donde he creado la entidad Joke y he realizado la migración.
+    -He creado un controlador llamado JokesController que maneja diferentes rutas y funciones:
+    Si añades "/chuck-or-dad/" y luego eliges entre "Chuck" o "Dad", te trae un chiste de una API diferente.
+    -Utilizando el método POST e importando la entidad Joke, puedes añadir chistes a la base de datos mediante un pequeño formulario. Este formulario es dinámico y, si utilizas el método PUT como se pidió en la prueba, puedes editar el chiste utilizando el número del chiste de la URL. En el formulario de edición, el número del chiste solo es de lectura. Si creas o editas un chiste correctamente, serás redirigido a la lista de chistes de mi base de datos, que están ordenados ascendente según el número del chiste.
+    -El método DELETE te permite borrar un chiste simplemente añadiendo el número del chiste en la URL. Después, serás redirigido a la lista y podrás comprobar que ha sido eliminado.
+    -He creado otro controlador llamado Numbers, en el cual realizo dos pruebas matemáticas:
+        *En una prueba, recibo un número en la URL y lo devuelvo sumándole 1.
+        *En la otra prueba, calculo el mínimo común múltiplo de un array de números que también recibo por la URL. Devuelvo el resultado del cálculo. Para esto, he utilizado fórmulas encontradas en Internet, ya que no encontré una función predefinida en Symfony para realizar este cálculo como la habia para nodeJS.
+        
+Espero vuestro feedback para saber si lo que he realizado esta bien. A mí me ha servido bastante para probar y aprender cosas nuevas.
