@@ -109,10 +109,6 @@ public function addJoke(Request $request): Response
     {
         $repository = $entityManager->getRepository(Joke::class);
         $joke = $repository->findOneBy(['numberJoke' => $numberJoke]);
-            
-        // if (!$joke) {
-            
-        // }
     
         if ($request->isMethod('POST')) {
             $newJoke = $request->request->get('joke');
